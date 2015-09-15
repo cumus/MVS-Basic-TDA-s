@@ -16,24 +16,15 @@ bool ModuleAudio::Init()
 
 	if (Mix_OpenAudio(44100, AUDIO_U8 /*MIX_DEFAULT_FORMAT*/, 2, 2048) == -1){ return false; } // Initialize SDL_mixer
 
-	music_paths[0]  = "music/01a - Mt. Fuji (Arcade).wav";
-	music_paths[1]  = "music/02 - Mt. Keirin (Arcade).wav";
-	music_paths[2]  = "music/03 - Emerald Temple (Arcade).wav";
-	music_paths[3]  = "music/04 - Angkor Wat (Arcade).wav";
-	music_paths[4]  = "music/05 - Australia (Arcade).wav";
-	music_paths[5]  = "music/06 - Taj Mahal (Arcade).wav";
-	music_paths[6]  = "music/07 - Leningrad (Arcade).wav";
-	music_paths[7]  = "music/08 - Paris (Arcade).wav";
-	music_paths[8]  = "music/09 - London (Arcade).wav";
-	music_paths[9]  = "music/10 - Barcelona (Arcade).wav";
-	music_paths[10] = "music/countdown.wav";
-
-	music_paths[17] = "music/Finivell1.wav";
-	music_paths[18] = "music/UN - Unused #1 (Arcade).wav";
-
-	Mix_Chunk* chunk = NULL;
-	chunk = Mix_LoadWAV("music/bolapeta.wav"); if (chunk == NULL) { return false; }   fx[0] = *chunk; // BALLOON_POP
-	chunk = Mix_LoadWAV("music/coin.wav");     if (chunk == NULL) { return false; }   fx[1] = *chunk; // COIN
+	// set music paths:
+	//music_paths[0]  = "music/01a - Mt. Fuji (Arcade).wav";
+	//...
+	
+	// set chunk paths:
+	//Mix_Chunk* chunk = NULL;
+	//chunk = Mix_LoadWAV("music/bolapeta.wav"); if (chunk == NULL) { return false; }   fx[0] = *chunk; // BALLOON_POP
+	//chunk = Mix_LoadWAV("music/coin.wav");     if (chunk == NULL) { return false; }   fx[1] = *chunk; // COIN
+	//...
 
 	return true;
 }
@@ -42,7 +33,7 @@ bool ModuleAudio::CleanUp()
 {
 	if (music != NULL){ Mix_FreeMusic(music); } // free music
 
-	for (unsigned int i = 0; i < 2; i++){ Mix_FreeChunk(&fx[i]); } // free chuncks
+	//for (unsigned int i = 0; i < "max chunk num"; i++){ Mix_FreeChunk(&fx[i]); } // free chuncks
 
 	Mix_CloseAudio(); // close audio subsystem
 

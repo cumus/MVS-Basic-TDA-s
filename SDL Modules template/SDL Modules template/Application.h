@@ -11,16 +11,6 @@
 #include "ModuleAudio.h"
 #include "ModuleFontManager.h"
 
-#include "ModulePlayer.h"
-#include "ModuleEntityManager.h"
-#include "ModuleScene.h"
-#include "ModuleTitle.h"
-#include "ModuleChooseCity.h"
-#include "ModulePlane.h"
-#include "ModuleStageEnd.h"
-#include "ModuleCredits.h"
-#include "ModuleHighscore.h"
-
 
 class Application
 {
@@ -43,16 +33,7 @@ public:
 	ModuleFontManager* fontManagerModule;
 
 	// Other Modules
-	ModulePlayer* playerModule;
-	ModuleEntityManager* entityManagerModule;
-	ModuleScene* sceneModule;
-
-	ModuleTitle* titleModule;
-	ModuleChooseCity* chooseCityModule;
-	ModulePlane* planeModule;
-	ModuleStageEnd* stageEndModule;
-	ModuleCredits* creditsModule;
-	ModuleHighscore* highscoreModule;
+	
 
 	// Other Module nodes
 	DoubleNode<Module*>* playerModule_Node;

@@ -13,5 +13,102 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Archivos de código fuente\MAIN">
+      <UniqueIdentifier>{5c94554f-3391-47db-94eb-605ff8b44223}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\General Modules">
+      <UniqueIdentifier>{514a3005-87d9-4aa4-9066-ceaa17ff6c1a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Secondary Modules">
+      <UniqueIdentifier>{a4ef6946-28c3-4480-b3b6-701f161a855e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\General Objects">
+      <UniqueIdentifier>{10115141-cc83-4247-b2c6-17c01de45b6f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de código fuente\Other Scripts">
+      <UniqueIdentifier>{1690920a-2cdc-4f84-a364-7d8a5499edc6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\General Modules">
+      <UniqueIdentifier>{92dc6237-543e-4967-9841-c5982bb85cc3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\General Objects">
+      <UniqueIdentifier>{e67a0f32-7592-4cd0-95c3-fdbe19df8447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Archivos de encabezado\TDA%27s">
+      <UniqueIdentifier>{3c1d78eb-93fe-4486-9c5c-0c47e40a92b9}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Module.h">
+      <Filter>Archivos de encabezado\General Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleWindow.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleAudio.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleFontManager.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleInput.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleRender.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTextures.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleTitle.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="DynArray.h">
+      <Filter>Archivos de encabezado\TDA%27s</Filter>
+    </ClInclude>
+    <ClInclude Include="DoubleNodedList.h">
+      <Filter>Archivos de encabezado\TDA%27s</Filter>
+    </ClInclude>
+    <ClInclude Include="Application.h">
+      <Filter>Archivos de encabezado\General Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="Globals.h">
+      <Filter>Archivos de encabezado\General Objects</Filter>
+    </ClInclude>
+    <ClInclude Include="ModuleScene.h">
+      <Filter>Archivos de encabezado\General Modules</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Archivos de código fuente\MAIN</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleAudio.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleFontManager.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleInput.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleRender.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTextures.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleTitle.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleWindow.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Application.cpp">
+      <Filter>Archivos de código fuente\General Objects</Filter>
+    </ClCompile>
+    <ClCompile Include="ModuleScene.cpp">
+      <Filter>Archivos de código fuente\General Modules</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -9,7 +9,7 @@ update_status ModuleInput::PreUpdate()
 	if (mainEvent.type == SDL_QUIT){ return UPDATE_STOP; }
 
 	key = SDL_GetKeyboardState(NULL);
-	if (key[SDL_SCANCODE_ESCAPE] == 1){ return UPDATE_STOP; }
+	if (key[SDL_SCANCODE_ESCAPE] == 1){ return UPDATE_STOP; } //ESC closes app
 
 	return UPDATE_CONTINUE;
 }
