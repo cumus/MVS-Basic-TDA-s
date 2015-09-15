@@ -77,5 +77,8 @@
     <ClInclude Include="Examen_Reevaluacion.h">
       <Filter>Varios</Filter>
     </ClInclude>
+    <ClInclude Include="Vec3.h">
+      <Filter>Archivos de encabezado</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

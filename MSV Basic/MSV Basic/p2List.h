@@ -3,6 +3,7 @@
 
 #include "p2Defs.h"
 #include "p2Assert.h"
+#include "p2DynArray.h"
 
 /**
 * Contains items from double linked list
@@ -491,6 +492,23 @@ public:
 			if (node_2->next != NULL) { node_2->next->prev = node_2; }
 		}
 	}
+
+	
+	void AddToDynArray(p2DynArray<tdata>* _array)
+	{
+		for (p2List_item<tdata>* node = start; node != NULL; node = node->next)
+		{
+			_array->PushBack(node->data);
+		}
+	}
+
+	
+
+
+
+
+
+
 
 };
 #endif /*__p2List_H__*/

@@ -84,6 +84,7 @@
     <ClInclude Include="p2Tree.h" />
     <ClInclude Include="Tree.h" />
     <ClInclude Include="Tree_2.h" />
+    <ClInclude Include="Vec3.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

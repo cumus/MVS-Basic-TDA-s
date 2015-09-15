@@ -436,6 +436,15 @@ public:
 	}
 
 
+	void AddToList(p2List<VALUE>* list)
+	{
+		for (unsigned int i = 0; i < num_elements; i++)
+		{
+			list->add(data[i]);
+		}
+	}
+
+
 };
 
 #endif // __P2DYNARRAY_H__
