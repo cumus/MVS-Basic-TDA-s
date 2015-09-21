@@ -34,6 +34,10 @@ public:
 public:
 
 	p2List<SDL_Texture*>	textures;
+
+private:
+
+	bool RWops_SurfaceLoad(SDL_Surface *image, int freesrc);
 };
 
 

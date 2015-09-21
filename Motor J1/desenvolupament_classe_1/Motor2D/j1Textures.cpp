@@ -117,3 +117,13 @@ void j1Textures::GetSize(const SDL_Texture* texture, uint& width, uint& height) 
 {
 	SDL_QueryTexture((SDL_Texture*)texture, NULL, NULL, (int*) &width, (int*) &height);
 }
+
+
+
+bool j1Textures::RWops_SurfaceLoad(SDL_Surface *image, int freesrc)
+{
+	image = IMG_Load_RW(SDL_RWFromFile("sample.png", "rb"), freesrc);
+
+	return (image != NULL);
+
+}

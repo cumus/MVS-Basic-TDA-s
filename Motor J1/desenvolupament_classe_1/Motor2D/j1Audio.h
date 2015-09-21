@@ -2,6 +2,7 @@
 #define __j1AUDIO_H__
 
 #include "j1Module.h"
+#include "SDL\include\SDL.h"
 
 #define DEFAULT_MUSIC_FADE_TIME 2.0f
 
@@ -36,6 +37,11 @@ private:
 
 	_Mix_Music*			music;
 	p2List<Mix_Chunk*>	fx;
+
+private:
+
+	bool RWops_WAVLoad(const char* path, int freesrc, Mix_Chunk* chunk);
+
 };
 
 #endif // __j1AUDIO_H__

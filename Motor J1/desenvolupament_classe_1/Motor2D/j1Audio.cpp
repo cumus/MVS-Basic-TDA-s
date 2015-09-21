@@ -154,3 +154,12 @@ bool j1Audio::PlayFx(unsigned int id, int repeat)
 
 	return ret;
 }
+
+
+bool j1Audio::RWops_WAVLoad(const char* path, int freesrc, Mix_Chunk* chunk)
+{
+	chunk = Mix_LoadWAV_RW(SDL_RWFromFile(path, "rb"), freesrc);
+
+	return (chunk != NULL);
+
+}

@@ -51,3 +51,57 @@ bool j1PhysFS::CleanUp()
 
 	return ret;
 }
+
+bool j1PhysFS::OpenFile(const char * filename, PHYSFS_File *physFS_file)
+{
+	physFS_file = PHYSFS_openRead(filename);
+	return (physFS_file != NULL);
+}
+
+bool j1PhysFS::GetFileLength(PHYSFS_File * handle, PHYSFS_sint64 size)
+{
+	bool retValue = true;
+
+	if (retValue = (handle != NULL))
+	{
+		size = PHYSFS_fileLength(handle);
+	}
+
+	return retValue;
+}
+
+int j1PhysFS::ReadPhysFS(
+	PHYSFS_File * handle,
+	void * buffer,
+	PHYSFS_uint32 objSize,
+	PHYSFS_uint32 objCount
+	)
+{
+	return PHYSFS_read(handle, buffer, objSize, objCount);
+
+
+
+}
+
+bool j1PhysFS::ClosePhysFS(PHYSFS_File * 	handle)
+{
+	bool retValue = true;
+
+	if (retValue = (handle != NULL))
+	{
+		retValue = (PHYSFS_close(handle) != 0);
+	}
+
+	return retValue;
+
+
+}
+
+bool j1PhysFS::LoadSLD_RWops(const void* mem, int size)
+{
+	io = SDL_RWFromConstMem(mem, size);
+	return (io != NULL);
+}
+
+
+
