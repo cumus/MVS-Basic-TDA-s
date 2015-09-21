@@ -66,7 +66,7 @@ bool j1App::Awake()
 
 	// --- load config file ---
 	char* buf;
-	int size = App->fs->Load("config.xml", &buf);
+	int size = App->fs->Load("app.config", &buf);
 	pugi::xml_parse_result result = config_file.load_buffer(buf, size);
 	RELEASE(buf);
 
@@ -76,7 +76,7 @@ bool j1App::Awake()
 		ret = false;
 	}
 	else
-		config = config_file.child("config");
+		config = config_file.child("configuration");
 	// ---
 
 	p2List_item<j1Module*>* item;
@@ -85,7 +85,7 @@ bool j1App::Awake()
 	while(item != NULL && ret == true)
 	{
 		// TODO 1: Every awake to receive a xml node with their section of the config file if exists
-		ret = item->data->Awake();
+		ret = item->data->Awake(config);
 		item = item->next;
 	}
 
