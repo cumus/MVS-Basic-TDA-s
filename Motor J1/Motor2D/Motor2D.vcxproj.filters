@@ -34,6 +34,9 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Desenvolupament  ========\Tools\PuguiXML</Filter>
     </ClCompile>
+    <ClCompile Include="..\..\Homework\j1PhysFS.cpp">
+      <Filter>Desenvolupament  ========\Homework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="j1Window.h">
@@ -87,6 +90,9 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Desenvolupament  ========\Tools\PuguiXML</Filter>
     </ClInclude>
+    <ClInclude Include="..\..\Homework\j1PhysFS.h">
+      <Filter>Desenvolupament  ========\Homework</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Programacio 2 ===========">
@@ -107,10 +113,13 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Desenvolupament  ========\Homework">
+      <UniqueIdentifier>{f3340702-ee81-41ab-9c07-9079ace5d7eb}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
-    <None Include="app.config">
+    <Xml Include="..\Game\config.xml">
       <Filter>Desenvolupament  ========</Filter>
-    </None>
+    </Xml>
   </ItemGroup>
 </Project>

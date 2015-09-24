@@ -30,6 +30,9 @@ bool j1Scene::Awake()
 bool j1Scene::Start()
 {
 	img = App->tex->Load("textures/test.png");
+
+	//img = App->tex->Load("textures/test.png");
+
 	App->audio->PlayMusic("audio/music/music_sadpiano.ogg");
 	return true;
 }

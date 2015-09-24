@@ -1,3 +1,5 @@
+/*
+
 #ifndef __j1PHYSFS_H__
 #define __j1PHYSFS_H__
 
@@ -64,8 +66,11 @@ private:
 	5 - Crear un RWOps des de memoria : SDL_RWFromConstMem
 	Ja hem de poder carregar imatges i audio amb les funcions alternatives de les llibreries de imatge i so : IMG_Load_RW i Mix_LoadWAV_RW
 	Bonus : a veure si trobeu com fer que la memòria del buffer s'alliberi correctament ;)
-	*/
+	* /
 
 };
 
 #endif // __j1PHYSFS_H__
+
+
+*/

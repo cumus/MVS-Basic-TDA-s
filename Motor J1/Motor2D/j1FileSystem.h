@@ -2,8 +2,10 @@
 #define __j1FILESYSTEM_H__
 
 #include "j1Module.h"
+#include "SDL/include/SDL.h"
+#include "PhysFS/include/physfs.h"
 
-struct SDL_RWops;
+struct Mix_Chunk;
 
 int close_sdl_rwops(SDL_RWops *rw);
 
@@ -11,7 +13,9 @@ class j1FileSystem : public j1Module
 {
 public:
 
-	j1FileSystem(const char* game_path);
+	j1App* app;
+
+	j1FileSystem(const char* game_path, j1App* app);
 
 	// Destructor
 	virtual ~j1FileSystem();
@@ -31,10 +35,19 @@ public:
 	unsigned int Load(const char* file, char** buffer) const;
 	SDL_RWops* Load(const char* file) const;
 
+	// SDL_RWops Utility
+	void CreateRWops(const char*);
+
+	//File Loading
+	SDL_Texture* LoadIMG(const char*);
+	void LoadAUDIO(char*, Mix_Chunk&);
+
+	// Save buffer
 	unsigned int Save(const char* file, const char* buffer, unsigned int size) const;
 
-private:
 
+private:
+	SDL_RWops* files;
 };
 
 #endif // __j1FILESYSTEM_H__
