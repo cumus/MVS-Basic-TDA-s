@@ -1,20 +1,14 @@
 #include "p2Defs.h"
 #include "j1App.h"
 #include "p2Log.h"
+#include "j1Console.h"
 #include "j1FileSystem.h"
-
+#include "PhysFS/include/physfs.h"
+#include "SDL/include/SDL.h"
 
 #pragma comment( lib, "PhysFS/libx86/physfs.lib" )
 
-// Free SDL_RWops memory
-int close_sdl_rwops(SDL_RWops *rw)
-{
-	RELEASE(rw->hidden.mem.base);
-	SDL_FreeRW(rw);
-	return 0;
-}
-
-j1FileSystem::j1FileSystem(const char* game_path, j1App* app) : j1Module()
+j1FileSystem::j1FileSystem() : j1Module()
 {
 	name.create("file_system");
 
@@ -23,8 +17,9 @@ j1FileSystem::j1FileSystem(const char* game_path, j1App* app) : j1Module()
 	PHYSFS_init(base_path);
 	SDL_free(base_path);
 
+	// By default we include executable's own directory
+	// without this we won't be able to find config.xml :-(
 	AddPath(".");
-	AddPath(game_path);
 }
 
 // Destructor
@@ -34,28 +29,42 @@ j1FileSystem::~j1FileSystem()
 }
 
 // Called before render is available
-bool j1FileSystem::Awake(pugi::xml_node node)
+bool j1FileSystem::Awake(pugi::xml_node& config)
 {
 	LOG("Loading File System");
 	bool ret = true;
 
-	//Initialize PHYS_FS
-	if (PHYSFS_init(app->GetArgv(0)) == 0)
+	// Add all paths in configuration in order
+	for(pugi::xml_node path = config.child("path"); path; path = path.next_sibling("path"))
 	{
-		LOG("File System could not be initialized: %s\n", PHYSFS_getLastError());
-		ret = false;
+		AddPath(path.child_value());
 	}
 
 	// Ask SDL for a write dir
-	char* write_path = SDL_GetPrefPath(ORGANIZATION, APPNAME);
+	char* write_path = SDL_GetPrefPath(App->GetOrganization(), App->GetTitle());
 
-	if (PHYSFS_setWriteDir(write_path) == 0)
-	{
+	if(PHYSFS_setWriteDir(write_path) == 0)
 		LOG("File System error while creating write dir: %s\n", PHYSFS_getLastError());
-		ret = false;
+	else
+	{
+		// We add the writing directory as a reading directory too with speacial mount point
+		LOG("Writing directory is %s\n", write_path);
+		AddPath(write_path, GetSaveDirectory());
 	}
 
 	SDL_free(write_path);
+
+	return ret;
+}
+
+// Called when the render is available
+bool j1FileSystem::Start()
+{
+	LOG("Adding FS commands ...");
+	bool ret = true;
+
+	// Create some default commands
+	mkdir = App->console->CreateCommand("mkdir", this, 1, 1);
 
 	return ret;
 }
@@ -64,41 +73,16 @@ bool j1FileSystem::Awake(pugi::xml_node node)
 bool j1FileSystem::CleanUp()
 {
 	//LOG("Freeing File System subsystem");
-
-
-	LOG("Closing PhysFS");
-	bool ret = true;
-
-	//PHYSFS_close(myfile);
-
-	if (!PHYSFS_isInit())
-	{
-		if (!PHYSFS_deinit())
-		{
-			LOG("PhysFS could not deinitialize! PHYSFS_getLastError(): %s\n", PHYSFS_getLastError());
-			ret = false;
-		}
-	}
-	else
-	{
-		LOG("PhysFS couldn't be closed because it wasn't initialized");
-		ret = false;
-	}
-
-	return ret;
+	return true;
 }
 
-//---------------------------------------------------------------------------
-// Utility functions---------------------------------------------------------
-//---------------------------------------------------------------------------
-
 // Add a new zip file or folder
-bool j1FileSystem::AddPath(const char* path_or_zip)
+bool j1FileSystem::AddPath(const char* path_or_zip, const char* mount_point)
 {
 	bool ret = false;
 
-	if(PHYSFS_mount(path_or_zip, NULL, 1) == 0)
-		LOG("File System error while adding a path or zip: %s\n", PHYSFS_getLastError());
+	if(PHYSFS_mount(path_or_zip, mount_point, 1) == 0)
+		LOG("File System error while adding a path or zip(%s): %s\n", path_or_zip, PHYSFS_getLastError());
 	else
 		ret = true;
 
@@ -117,32 +101,42 @@ bool j1FileSystem::IsDirectory(const char* file) const
 	return PHYSFS_isDirectory(file) != 0;
 }
 
-//---------------------------------------------------------------------------
-// Open for Read/Write-------------------------------------------------------
-//---------------------------------------------------------------------------
+// EXERCISE 1
+// Try creating a new directory
+bool j1FileSystem::MakeDirectory(const char* name)
+{
+	bool ret = false;
+
+	if(PHYSFS_mkdir(name) == 0)
+		LOG("Error while trying to create a new directory (%s): %s\n", name, PHYSFS_getLastError());
+	else
+		ret = true;
+
+	return ret;
+}
 
 // Read a whole file and put it in a new buffer
 unsigned int j1FileSystem::Load(const char* file, char** buffer) const
 {
 	unsigned int ret = 0;
 
-	PHYSFS_File* fs_file = PHYSFS_openRead(file);
+	PHYSFS_file* fs_file = PHYSFS_openRead(file);
 
 	if(fs_file != NULL)
 	{
-		PHYSFS_sint32 size = PHYSFS_fileLength(fs_file);
+		PHYSFS_sint64 size = PHYSFS_fileLength(fs_file);
 
 		if(size > 0)
 		{
-			*buffer = new char[size];
-			int readed = PHYSFS_read(fs_file, *buffer, 1, size);
+			*buffer = new char[(uint)size];
+			PHYSFS_sint64 readed = PHYSFS_read(fs_file, *buffer, 1, (PHYSFS_sint32)size);
 			if(readed != size)
 			{
 				LOG("File System error while reading from file %s: %s\n", file, PHYSFS_getLastError());
 				RELEASE(buffer);
 			}
 			else
-				ret = readed;
+				ret = (uint)readed;
 		}
 
 		if(PHYSFS_close(fs_file) == 0)
@@ -172,26 +166,29 @@ SDL_RWops* j1FileSystem::Load(const char* file) const
 		return NULL;
 }
 
-//---------------------------------------------------------------------------
-// Save buffer---------------------------------------------------------------
-//---------------------------------------------------------------------------
+int close_sdl_rwops(SDL_RWops *rw)
+{
+	RELEASE(rw->hidden.mem.base);
+	SDL_FreeRW(rw);
+	return 0;
+}
 
 // Save a whole buffer to disk
 unsigned int j1FileSystem::Save(const char* file, const char* buffer, unsigned int size) const
 {
 	unsigned int ret = 0;
 
-	PHYSFS_File* fs_file = PHYSFS_openWrite(file);
+	PHYSFS_file* fs_file = PHYSFS_openWrite(file);
 
-	if (fs_file != NULL)
+	if(fs_file != NULL)
 	{
-		unsigned int written = PHYSFS_write(fs_file, (const void*)buffer, 1, size);
-		if (written != size)
+		PHYSFS_sint64 written = PHYSFS_write(fs_file, (const void*)buffer, 1, size);
+		if(written != size)
 			LOG("File System error while writing to file %s: %s\n", file, PHYSFS_getLastError());
 		else
-			ret = written;
+			ret = (uint) written;
 
-		if (PHYSFS_close(fs_file) == 0)
+		if(PHYSFS_close(fs_file) == 0)
 			LOG("File System error while closing file %s: %s\n", file, PHYSFS_getLastError());
 	}
 	else
@@ -200,7 +197,18 @@ unsigned int j1FileSystem::Save(const char* file, const char* buffer, unsigned i
 	return ret;
 }
 
+bool j1FileSystem::OnCommand(const Command* com, const p2DynArray<p2SString>& arguments, p2SString& return_message)
+{
+	bool ret = false;
 
+	// EXERCISE 2
+	if(com == mkdir)
+	{
+		if(ret = MakeDirectory(arguments[1].GetString()))
+			return_message.create("Directory created successfully");
+		else
+			return_message.create("Error creating directory");
+	}
 
-
-
+	return ret;
+}

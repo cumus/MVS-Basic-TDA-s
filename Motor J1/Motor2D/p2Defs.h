@@ -2,6 +2,7 @@
 #define __P2DEFS_H__
 
 #include <stdio.h>
+#include <ctype.h>
 
 //  NULL just in case ----------------------
 
@@ -37,7 +38,9 @@
 #define TO_BOOL( a )  ( (a != 0) ? true : false )
 
 typedef unsigned int uint;
-typedef unsigned char uchar;
+typedef unsigned int uchar;
+typedef unsigned __int32 uint32;
+typedef unsigned __int64 uint64;
 
 template <class VALUE_TYPE> void SWAP(VALUE_TYPE& a, VALUE_TYPE& b)
 {
@@ -45,6 +48,17 @@ template <class VALUE_TYPE> void SWAP(VALUE_TYPE& a, VALUE_TYPE& b)
 	a = b;
 	b = tmp;
 }
+
+struct rectangle
+{
+	int x, y, w, h;
+
+	bool Contains(int x, int y) const
+	{
+		return ((x >= this->x) && (x < (this->x + w)) &&
+				(y >= this->y) && (y < (this->y + h)));
+	}
+};
 
 // Standard string size
 #define SHORT_STR	32
@@ -59,18 +73,8 @@ inline const char* const PATH(const char* folder, const char* file)
 	return path;
 }
 
-// Conf
-
-// TODO 2: move all those defines to data from the config.xml file
-#define R_FULLSCREEN false
-#define R_BORDERLESS false
-#define R_RESIZABLE false
-#define R_FULLSCR_WINDOWED false
-#define SCREEN_WIDTH 640
-#define SCREEN_HEIGHT 480
-//#define WINDOW_TITLE "My Game"
-#define SCALE 1
-#define ORGANIZATION "My Awesome Studio"
-#define APPNAME "My cool game"
+// Performance macros
+#define PERF_START(timer) timer.Start()
+#define PERF_PEEK(timer) LOG("%s took %f ms", __FUNCTION__, timer.ReadMs())
 
 #endif

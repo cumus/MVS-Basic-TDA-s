@@ -6,6 +6,7 @@
 #define __P2DYNARRAY_H__
 
 #include "p2Defs.h"
+//#include "uSTL\ustl.h"
 
 #define DYN_ARRAY_BLOCK_SIZE 16
 

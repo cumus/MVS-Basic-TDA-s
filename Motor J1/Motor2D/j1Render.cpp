@@ -20,16 +20,17 @@ j1Render::~j1Render()
 {}
 
 // Called before render is available
-bool j1Render::Awake(pugi::xml_node node)
+bool j1Render::Awake(pugi::xml_node& config)
 {
 	LOG("Create SDL rendering context");
 	bool ret = true;
 	// load flags
 	Uint32 flags = SDL_RENDERER_ACCELERATED;
 
-	if(VSYNC == true)
+	if(config.child("vsync").attribute("value").as_bool(true) == true)
 	{
 		flags |= SDL_RENDERER_PRESENTVSYNC;
+		LOG("Using vsync");
 	}
 
 	renderer = SDL_CreateRenderer(App->win->window, -1, flags);
@@ -66,11 +67,6 @@ bool j1Render::PreUpdate()
 	return true;
 }
 
-bool j1Render::Update(float dt)
-{
-	return true;
-}
-
 bool j1Render::PostUpdate()
 {
 	SDL_SetRenderDrawColor(renderer, background.r, background.g, background.g, background.a);
@@ -83,6 +79,26 @@ bool j1Render::CleanUp()
 {
 	LOG("Destroying SDL render");
 	SDL_DestroyRenderer(renderer);
+	return true;
+}
+
+// Load Game State
+bool j1Render::Load(pugi::xml_node& data)
+{
+	camera.x = data.child("camera").attribute("x").as_int();
+	camera.y = data.child("camera").attribute("y").as_int();
+
+	return true;
+}
+
+// Save Game State
+bool j1Render::Save(pugi::xml_node& data) const
+{
+	pugi::xml_node cam = data.append_child("camera");
+
+	cam.append_attribute("x") = camera.x;
+	cam.append_attribute("y") = camera.y;
+
 	return true;
 }
 
@@ -101,45 +117,57 @@ void j1Render::ResetViewPort()
 	SDL_RenderSetViewport(renderer, &viewport);
 }
 
-// Blit to screen
-bool j1Render::Blit(SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+iPoint j1Render::ScreenToWorld(int x, int y) const
 {
-	bool ret = true;
-	uint scale = App->win->GetScale();
+	iPoint ret;
+	int scale = App->win->GetScale();
 
-	SDL_Rect rect;
-	rect.x = (int)(camera.x * speed) + x * scale;
-	rect.y = (int)(camera.y * speed) + y * scale;
+	ret.x = (x - camera.x / scale);
+	ret.y = (y - camera.y / scale);
 
-	if(section != NULL)
+	return ret;
+}
+
+// Blit to screen
+bool j1Render::Blit(const SDL_Texture* texture, int x, int y, const SDL_Rect* section, float speed, double angle, int pivot_x, int pivot_y) const
+{
+	bool ret = false;
+	if(texture != nullptr)
 	{
-		rect.w = section->w;
-		rect.h = section->h;
+		uint scale = App->win->GetScale();
+
+		SDL_Rect rect;
+		rect.x = (int)(camera.x * speed) + x * scale;
+		rect.y = (int)(camera.y * speed) + y * scale;
+
+		if(section != NULL)
+		{
+			rect.w = section->w;
+			rect.h = section->h;
+		}
+		else
+		{
+			SDL_QueryTexture((SDL_Texture*)texture, NULL, NULL, &rect.w, &rect.h);
+		}
+
+		rect.w *= scale;
+		rect.h *= scale;
+
+		SDL_Point* p = NULL;
+		SDL_Point pivot;
+
+		if(pivot_x != INT_MAX && pivot_y != INT_MAX)
+		{
+			pivot.x = pivot_x;
+			pivot.y = pivot_y;
+			p = &pivot;
+		}
+
+		if(SDL_RenderCopyEx(renderer, (SDL_Texture*)texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
+			LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
+
+		ret = true;
 	}
-	else
-	{
-		SDL_QueryTexture(texture, NULL, NULL, &rect.w, &rect.h);
-	}
-
-	rect.w *= scale;
-	rect.h *= scale;
-
-	SDL_Point* p = NULL;
-	SDL_Point pivot;
-
-	if(pivot_x != INT_MAX && pivot_y != INT_MAX)
-	{
-		pivot.x = pivot_x;
-		pivot.y = pivot_y;
-		p = &pivot;
-	}
-
-	if(SDL_RenderCopyEx(renderer, texture, section, &rect, angle, p, SDL_FLIP_NONE) != 0)
-	{
-		LOG("Cannot blit to screen. SDL_RenderCopy error: %s", SDL_GetError());
-		ret = false;
-	}
-
 	return ret;
 }
 

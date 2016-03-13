@@ -19,7 +19,7 @@ j1Window::~j1Window()
 }
 
 // Called before render is available
-bool j1Window::Awake(pugi::xml_node node)
+bool j1Window::Awake(pugi::xml_node& config)
 {
 	LOG("Init SDL window & surface");
 	bool ret = true;
@@ -33,31 +33,36 @@ bool j1Window::Awake(pugi::xml_node node)
 	{
 		//Create window
 		Uint32 flags = SDL_WINDOW_SHOWN;
-		width = SCREEN_WIDTH;
-		height = SCREEN_HEIGHT;
-		scale = SCALE;
+		bool fullscreen = config.child("fullscreen").attribute("value").as_bool(false);
+		bool borderless = config.child("borderless").attribute("value").as_bool(false);
+		bool resizable = config.child("resizable").attribute("value").as_bool(false);
+		bool fullscreen_window = config.child("fullscreen_window").attribute("value").as_bool(false);
 
-		if(R_FULLSCREEN == true)
+		width = config.child("resolution").attribute("width").as_int(640);
+		height = config.child("resolution").attribute("height").as_int(480);
+		scale = config.child("resolution").attribute("scale").as_int(1);
+
+		if(fullscreen == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN;
 		}
 
-		if(R_BORDERLESS == true)
+		if(borderless == true)
 		{
 			flags |= SDL_WINDOW_BORDERLESS;
 		}
 
-		if(R_RESIZABLE == true)
+		if(resizable == true)
 		{
 			flags |= SDL_WINDOW_RESIZABLE;
 		}
 
-		if(R_FULLSCR_WINDOWED == true)
+		if(fullscreen_window == true)
 		{
 			flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
 		}
 
-		window = SDL_CreateWindow("", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
+		window = SDL_CreateWindow(App->GetTitle(), SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, flags);
 
 		if(window == NULL)
 		{
@@ -68,7 +73,6 @@ bool j1Window::Awake(pugi::xml_node node)
 		{
 			//Get window surface
 			screen_surface = SDL_GetWindowSurface(window);
-			SetTitle(App->config.child("name").child_value());
 		}
 	}
 

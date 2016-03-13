@@ -34,8 +34,32 @@
     <ClCompile Include="PugiXml\src\pugixml.cpp">
       <Filter>Desenvolupament  ========\Tools\PuguiXML</Filter>
     </ClCompile>
-    <ClCompile Include="..\..\Homework\j1PhysFS.cpp">
-      <Filter>Desenvolupament  ========\Homework</Filter>
+    <ClCompile Include="j1Map.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Pathfinding.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Timer.cpp">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1PerfTimer.cpp">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Fonts.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="Gui.cpp">
+      <Filter>Desenvolupament  ========\Modules\Gui</Filter>
+    </ClCompile>
+    <ClCompile Include="j1Console.cpp">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClCompile>
+    <ClCompile Include="HashTable.cpp">
+      <Filter>Programacio 2 ===========</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -90,8 +114,32 @@
     <ClInclude Include="PugiXml\src\pugixml.hpp">
       <Filter>Desenvolupament  ========\Tools\PuguiXML</Filter>
     </ClInclude>
-    <ClInclude Include="..\..\Homework\j1PhysFS.h">
-      <Filter>Desenvolupament  ========\Homework</Filter>
+    <ClInclude Include="j1Map.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Pathfinding.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Timer.h">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="j1PerfTimer.h">
+      <Filter>Desenvolupament  ========\Tools</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Fonts.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Gui.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="Gui.h">
+      <Filter>Desenvolupament  ========\Modules\Gui</Filter>
+    </ClInclude>
+    <ClInclude Include="j1Console.h">
+      <Filter>Desenvolupament  ========\Modules</Filter>
+    </ClInclude>
+    <ClInclude Include="HashTable.h">
+      <Filter>Programacio 2 ===========</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -113,13 +161,8 @@
     <Filter Include="Desenvolupament  ========\Tools\PuguiXML">
       <UniqueIdentifier>{7cb78d67-17cc-45eb-af97-e2106becce7b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Desenvolupament  ========\Homework">
-      <UniqueIdentifier>{f3340702-ee81-41ab-9c07-9079ace5d7eb}</UniqueIdentifier>
+    <Filter Include="Desenvolupament  ========\Modules\Gui">
+      <UniqueIdentifier>{7331cf5b-9074-48c0-8f4f-0f128f6df98d}</UniqueIdentifier>
     </Filter>
-  </ItemGroup>
-  <ItemGroup>
-    <Xml Include="..\Game\config.xml">
-      <Filter>Desenvolupament  ========</Filter>
-    </Xml>
   </ItemGroup>
 </Project>

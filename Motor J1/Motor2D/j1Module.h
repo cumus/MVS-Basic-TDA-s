@@ -7,11 +7,14 @@
 #define __j1MODULE_H__
 
 #include "p2SString.h"
-
-#include "PugiXml\src\pugiconfig.hpp"
+#include "p2DynArray.h"
 #include "PugiXml\src\pugixml.hpp"
 
 class j1App;
+class Gui;
+struct Command;
+enum GuiEvents;
+struct CVar;
 
 class j1Module
 {
@@ -20,13 +23,16 @@ public:
 	j1Module() : active(false)
 	{}
 
+	virtual ~j1Module()
+	{}
+
 	void Init()
 	{
 		active = true;
 	}
 
 	// Called before render is available
-	virtual bool Awake(pugi::xml_node node)
+	virtual bool Awake(pugi::xml_node&)
 	{
 		return true;
 	}
@@ -60,6 +66,27 @@ public:
 	{
 		return true;
 	}
+
+	virtual bool Load(pugi::xml_node&)
+	{
+		return true;
+	}
+
+	virtual bool Save(pugi::xml_node&) const
+	{
+		return true;
+	}
+
+	virtual void OnGui(Gui* ui, GuiEvents event)
+	{}
+
+	virtual bool OnCommand(const Command*, const p2DynArray<p2SString>& arguments, p2SString& return_message)
+	{
+		return true;
+	}
+
+	virtual void OnCVar(const CVar* var)
+	{}
 
 public:
 
